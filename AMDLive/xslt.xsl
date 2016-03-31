@@ -1,25 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:output method="html"/>
 <xsl:template match="/">
 
   <html>
   <head>
 	<title>AMD Live Data Statistics</title>
 	<script src="table.js"></script>
-	<style>
-	th { width: 150px; }
-	th.big { width: 250px; }
-	th.table-sortable { cursor: pointer; }
-	th.table-sorted-asc:after { content: " ˅"; }
-	th.table-sorted-desc:after { content: " ˄"; }
-	td { text-align: right; }
-	td.left { text-align: left; }
-	tfoot { background-color: lightgray; }
-	thead { background-color: lightgray; }
-	table { border-collapse: collapse; }
-	tr.total { font-weight: bold; }
-	</style>
+	<link rel="stylesheet" type="text/css" href="style.css"/>
   </head>
   <body>
 

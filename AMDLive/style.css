@@ -1,0 +1,13 @@
+
+th { width: 150px; }
+th.big { width: 250px; }
+th.table-sortable { cursor: pointer; }
+th.table-sorted-asc:after { content: " ˅"; }
+th.table-sorted-desc:after { content: " ˄"; }
+td { text-align: right; }
+td.left { text-align: left; }
+tfoot { background-color: lightgray; }
+thead { background-color: lightgray; }
+table { border-collapse: collapse; }
+tr.total { font-weight: bold; }
+

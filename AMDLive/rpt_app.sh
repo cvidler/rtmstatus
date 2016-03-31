@@ -27,6 +27,5 @@ echo -e '</clilist>'
 echo -n '<info><timestamp>'
 echo -n `date`
 echo -e '</timestamp></info>'
-echo -e '</amdlive></xml>'
-
+echo -e '</amdlive>'
 
