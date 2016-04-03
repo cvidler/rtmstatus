@@ -17,7 +17,6 @@ Redistribution and use, with or without modification, are permitted provided tha
       this software without specific prior written permission.
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:import href="common.xsl" />
 
 	<!-- Constants -->
 	<xsl:variable name="MIN_VERTICAL_SPAN" select="75" />
@@ -153,9 +152,10 @@ Redistribution and use, with or without modification, are permitted provided tha
 							</xsl:choose>
 						</xsl:variable>
 
+						<xsl:variable name="index" select="position()"/>
 						<svg:rect x="{$xMin+(position() - 1)*$barWidth}" y="{$y}" rx="2" ry="2"
 						    width="{$barWidth}" height="{$absoluteHeight}"
-							fill="{$colour}" stroke="black" stroke-width="1" />
+							fill="{$colour}" stroke="black" stroke-width="1" title="{$xData[$index]} ({.})" />
 					</xsl:for-each>
 				</svg:g>
 

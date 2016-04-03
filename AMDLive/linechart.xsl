@@ -17,7 +17,6 @@ Redistribution and use, with or without modification, are permitted provided tha
       this software without specific prior written permission.
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:import href="common.xsl" />
 
 	<!-- Constants -->
 	<xsl:variable name="MIN_VERTICAL_SPAN" select="75" />
@@ -136,6 +135,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 				<svg:g transform="translate(0 {$yCentre}) scale(1 -1)">
 					<xsl:call-template name="_printPoints">
 						<xsl:with-param name="yData" select="$yData" />
+						<xsl:with-param name="xData" select="$xData" />
 						<xsl:with-param name="xMin" select="$xStart" />
 						<xsl:with-param name="xDelta" select="$xDelta" />
 						<xsl:with-param name="yScale" select="$yScale" />
@@ -161,6 +161,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 	<!-- Prints points and joins them -->
 	<xsl:template name="_printPoints">
 		<xsl:param name="yData" />
+		<xsl:param name="xData" />
 		<xsl:param name="index" select="1" />
 		<xsl:param name="xMin" />
 		<xsl:param name="xDelta" />
@@ -175,11 +176,12 @@ Redistribution and use, with or without modification, are permitted provided tha
 			    stroke="{$lineColour}" stroke-width="1" xmlns:svg="http://www.w3.org/2000/svg" />
 		</xsl:if>
 		<svg:circle cx="{$x}" cy="{$y}" r="{$POINT_RADIUS}" fill="white" stroke="{$pointColour}" stroke-width="1"
-		    xmlns:svg="http://www.w3.org/2000/svg" />
+		    xmlns:svg="http://www.w3.org/2000/svg" title="{$xData[$index]}: {$yData[$index]}" />
 
 		<xsl:if test="$index &lt; count($yData)">
 			<xsl:call-template name="_printPoints">
 				<xsl:with-param name="yData" select="$yData" />
+				<xsl:with-param name="xData" select="$xData" />
 				<xsl:with-param name="index" select="$index+1" />
 				<xsl:with-param name="xMin" select="$xMin" />
 				<xsl:with-param name="xDelta" select="$xDelta" />

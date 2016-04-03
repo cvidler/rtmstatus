@@ -18,7 +18,6 @@ Redistribution and use, with or without modification, are permitted provided tha
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:math="http://exslt.org/math" xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl math">
-	<xsl:import href="common.xsl" />
 
 	<!-- Constants -->
 	<xsl:variable name="MIN_VERTICAL_SPAN" select="100" />
@@ -158,13 +157,14 @@ Redistribution and use, with or without modification, are permitted provided tha
 
 		<xsl:variable name="rotationInDegrees" select="270+(360*(sum($data[position()&lt;$index]) div $total))" />
 		<xsl:variable name="angleInRadians" select="($data[$index] div $total)*$FULL_CIRCLE_ANGLE" />
-
+		
 		<xsl:call-template name="_printPie">
 			<xsl:with-param name="index" select="$index" />
 			<xsl:with-param name="rotationInDegrees" select="$rotationInDegrees" />
 			<xsl:with-param name="angleInRadians" select="$angleInRadians" />
 			<xsl:with-param name="padding" select="$padding" />
 			<xsl:with-param name="radius" select="$radius" />
+			<xsl:with-param name="data" select="$data" />
 		</xsl:call-template>
 
 		<xsl:call-template name="_printLabel">
@@ -195,6 +195,8 @@ Redistribution and use, with or without modification, are permitted provided tha
 		<xsl:param name="angleInRadians" />
 		<xsl:param name="padding" />
 		<xsl:param name="radius" />
+		<xsl:param name="data" />
+		
 
 		<xsl:variable name="colour">
 			<xsl:call-template name="colour">
@@ -213,10 +215,12 @@ Redistribution and use, with or without modification, are permitted provided tha
 		</xsl:variable>
 		<xsl:variable name="centre" select="$padding+$radius" />
 
+
+		<xsl:variable name="xname"><xsl:value-of name="xname" select="$data[$index]/@name" /></xsl:variable>		
 		<svg:path fill="{$colour}" stroke="white" stroke-width="1"
 		    transform="translate({$centre} {$centre}) rotate({$rotationInDegrees})"
 			d="M {$radius} 0 A {$radius} {$radius} 0 {$largeArcFlag} 1 {$radius*math:cos($angleInRadians)} {$radius*math:sin($angleInRadians)} L 0 0 Z"
-			xmlns:svg="http://www.w3.org/2000/svg" />
+			xmlns:svg="http://www.w3.org/2000/svg" title="{$xname} ({$data[$index]})"/>
 	</xsl:template>
 
 	<!-- Prints label inside the pie -->
