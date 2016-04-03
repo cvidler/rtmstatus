@@ -188,6 +188,19 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 	
 	<div id="clidiv">
   <h2>Clients</h2>
+	<xsl:variable name="tb">
+		<data>
+		<xsl:for-each select="amdlive/clilist/cli">
+		<cli>
+			<name><xsl:value-of select="name"/></name>
+			<sessions><xsl:value-of select="format-number((sessions), '###,##0')"/></sessions>
+			<srvbytes><xsl:value-of select="format-number((srvbytes) div 1048576, '###,##0.00')"/></srvbytes>
+			<clibytes><xsl:value-of select="format-number((clibytes) div 1048576, '###,##0.00')"/></clibytes>
+			<totbytes><xsl:value-of select="format-number((srvbytes + clibytes) div 1048576, '###,##0.00')"/></totbytes>
+		</cli>
+		</xsl:for-each>
+		</data>
+	</xsl:variable>
   <table><tr><td>
   <table id="cli" class="table-autosort:4 table-autopage:10 table-page-number:clipage table-page-count:clipages">
 	<thead>
@@ -207,23 +220,23 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 		</tr>
 	</thead>
 	<tbody>
-    <xsl:for-each select="amdlive/clilist/cli">
+    <xsl:for-each select="exsl:node-set($tb)/data/cli">
     <tr>
       <td class="left"><xsl:value-of select="name"/></td>
-      <td><xsl:value-of select="format-number(sessions, '###,##0')"/></td>
-      <td><xsl:value-of select="format-number(srvbytes div 1048576, '###,##0.00')"/></td>
-      <td><xsl:value-of select="format-number(clibytes div 1048576, '###,##0.00')"/></td>
-      <td><xsl:value-of select="format-number((clibytes + srvbytes) div 1048576, '###,##0.00')"/></td>
+      <td><xsl:value-of select="sessions"/></td>
+      <td><xsl:value-of select="srvbytes"/></td>
+      <td><xsl:value-of select="clibytes"/></td>
+      <td><xsl:value-of select="totbytes"/></td>
     </tr>
     </xsl:for-each>
 	</tbody>
 	<tfoot>
 	<tr class="total">
 	  <td class="left">Total</td>
-	  <td><xsl:value-of select="format-number(sum( amdlive/clilist/cli/sessions ), '###,##0')"/></td>
-	  <td><xsl:value-of select="format-number(sum( amdlive/clilist/cli/srvbytes ) div 1048576, '###,##0.00')"/></td>
-	  <td><xsl:value-of select="format-number(sum( amdlive/clilist/cli/clibytes ) div 1048576, '###,##0.00')"/></td>
-	  <td><xsl:value-of select="format-number((sum( amdlive/clilist/cli/clibytes) + sum( amdlive/clilist/cli/srvbytes )) div 1048576, '###,##0.00')"/></td>
+	  <td><xsl:value-of select="sum( exsl:node-set($tb)/data/cli/sessions )"/></td>
+	  <td><xsl:value-of select="sum( exsl:node-set($tb)/data/cli/srvbytes )"/></td>
+	  <td><xsl:value-of select="sum( exsl:node-set($tb)/data/cli/clibytes )"/></td>
+	  <td><xsl:value-of select="sum( exsl:node-set($tb)/data/cli/totbytes )"/></td>
 	</tr>
 	<tr>
 		<td class="left table-page:previous" style="cursor:pointer;">&lt; &lt; Previous</td>
@@ -254,8 +267,8 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 	<xsl:variable name="data">
 	<p>
 		<xsl:call-template name="pieChart">
-			<xsl:with-param name="xData" select="/amdlive/clilist/cli/name" />
-			<xsl:with-param name="yData" select="/amdlive/clilist/cli/sessions" />
+			<xsl:with-param name="xData" select="exsl:node-set($tb)/data/cli/name" />
+			<xsl:with-param name="yData" select="exsl:node-set($tb)/data/cli/totbytes" />
 			<xsl:with-param name="width" select="'640px'" />
 			<xsl:with-param name="height" select="'250px'" />
 			<xsl:with-param name="viewBoxWidth" select="320" />
@@ -276,13 +289,16 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 	</script>
 	
 	<div id="footer">
-  <p><xsl:value-of select="amdlive/info/timestamp"/></p>
+ 		<p><xsl:value-of select="amdlive/info/timestamp"/></p>
 	</div>
 
 	</body>
   </html>
 
 </xsl:template>
+
+
+
 <!-- Removes namespace prefix -->
 <xsl:template name="removePrefix">
 	<xsl:param name="data" />
@@ -300,4 +316,6 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 		</xsl:element>
 	</xsl:for-each>
 </xsl:template>
+
+
 </xsl:stylesheet> 

@@ -43,6 +43,7 @@ Browsers
 ## Requirements
 - bash
 - gawk
+- xsltproc
 
 ## Includes
 - Utilising Mark Kruse's javascript toolkit (MIT and GPL license) for table pagination, sorting, filtering.
