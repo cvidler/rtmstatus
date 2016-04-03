@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
-xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
+<xsl:import href="charts.xsl" />
 <xsl:output method="html"/>
 <xsl:template match="/">
+<xsl:text disable-output-escaping="yes">&lt;!DOCTYPE html&gt;</xsl:text>
 
   <html>
   <head>
@@ -19,6 +22,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
   <div id="ssdiv">
   <h2>Software Services</h2>
+  <table><tr><td>
   <table id="ss" class="table-autosort:4 table-autopage:10 table-page-number:sspage table-page-count:sspages">
 	<thead>
     <tr>
@@ -28,13 +32,13 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 			<th class="table-sortable:numeric table-sortable">Client MB</th>
 			<th id="sstb" class="table-sortable:numeric table-sortable">Total MB</th>
     </tr>
-		<tr>
-			<th><input name="ssfilter" size="20" title="RegEx filter" onkeyup="Table.filter(this,this)"/></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-		</tr>
+	<tr>
+		<th><input name="ssfilter" size="20" title="RegEx filter" onkeyup="Table.filter(this,this)"/></th>
+		<th></th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
 	</thead>
 	<tbody>
     <xsl:for-each select="amdlive/sslist/ss">
@@ -80,10 +84,28 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 		$('#page'+currentPage).addClass('currentpage');
 	}
   </script>	
+  </td><td>
+	<xsl:variable name="data">
+	<p>
+		<xsl:call-template name="pieChart">
+			<xsl:with-param name="xData" select="/amdlive/sslist/ss/name" />
+			<xsl:with-param name="yData" select="/amdlive/sslist/ss/sessions" />
+			<xsl:with-param name="width" select="'640px'" />
+			<xsl:with-param name="height" select="'250px'" />
+			<xsl:with-param name="viewBoxWidth" select="320" />
+			<xsl:with-param name="viewBoxHeight" select="125" />
+		</xsl:call-template>
+	</p>
+	</xsl:variable>
+	<xsl:call-template name="removePrefix">
+		<xsl:with-param name="data" select="exsl:node-set($data)/*" />
+	</xsl:call-template>
+  </td></tr></table>
   </div>
 
   <div id="srvdiv">
   <h2>Servers</h2>
+  <table><tr><td>
   <table id="srv" class="table-autosort:4 table-autopage:10 table-page-number:srvpage table-page-count:srvpages">
 	<thead>
 	<tr>
@@ -145,11 +167,29 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 		$('#page'+currentPage).addClass('currentpage');
 	}
 	</script>	
+  </td><td>
+	<xsl:variable name="data">
+	<p>
+		<xsl:call-template name="pieChart">
+			<xsl:with-param name="xData" select="/amdlive/srvlist/srv/name" />
+			<xsl:with-param name="yData" select="/amdlive/srvlist/srv/sessions" />
+			<xsl:with-param name="width" select="'640px'" />
+			<xsl:with-param name="height" select="'250px'" />
+			<xsl:with-param name="viewBoxWidth" select="320" />
+			<xsl:with-param name="viewBoxHeight" select="125" />
+		</xsl:call-template>
+	</p>
+	</xsl:variable>
+	<xsl:call-template name="removePrefix">
+		<xsl:with-param name="data" select="exsl:node-set($data)/*" />
+	</xsl:call-template>
+  </td></tr></table>
   </div>
 	
 	<div id="clidiv">
   <h2>Clients</h2>
-<table id="cli" class="table-autosort:4 table-autopage:10 table-page-number:clipage table-page-count:clipages">
+  <table><tr><td>
+  <table id="cli" class="table-autosort:4 table-autopage:10 table-page-number:clipage table-page-count:clipages">
 	<thead>
 	<tr>
 		<th class="big table-sortable:ignorecase filterable">Client</th>
@@ -210,6 +250,23 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 		$('#page'+currentPage).addClass('currentpage');
 	}
 	</script>	
+  </td><td>
+	<xsl:variable name="data">
+	<p>
+		<xsl:call-template name="pieChart">
+			<xsl:with-param name="xData" select="/amdlive/clilist/cli/name" />
+			<xsl:with-param name="yData" select="/amdlive/clilist/cli/sessions" />
+			<xsl:with-param name="width" select="'640px'" />
+			<xsl:with-param name="height" select="'250px'" />
+			<xsl:with-param name="viewBoxWidth" select="320" />
+			<xsl:with-param name="viewBoxHeight" select="125" />
+		</xsl:call-template>
+	</p>
+	</xsl:variable>
+	<xsl:call-template name="removePrefix">
+		<xsl:with-param name="data" select="exsl:node-set($data)/*" />
+	</xsl:call-template>
+  </td></tr></table>
 	</div>
 
 	<script>
@@ -221,10 +278,26 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<div id="footer">
   <p><xsl:value-of select="amdlive/info/timestamp"/></p>
 	</div>
-  
+
 	</body>
   </html>
 
 </xsl:template>
-
+<!-- Removes namespace prefix -->
+<xsl:template name="removePrefix">
+	<xsl:param name="data" />
+	<xsl:for-each select="$data">
+		<xsl:element name="{local-name()}">
+			<xsl:for-each select="@*">
+				<xsl:attribute name="{local-name()}">
+                    <xsl:value-of select="." />
+                </xsl:attribute>
+			</xsl:for-each>
+			<xsl:value-of select="text()" />
+			<xsl:call-template name="removePrefix">
+				<xsl:with-param name="data" select="exsl:node-set(.)/*" />
+			</xsl:call-template>
+		</xsl:element>
+	</xsl:for-each>
+</xsl:template>
 </xsl:stylesheet> 
