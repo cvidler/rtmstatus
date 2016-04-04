@@ -4,17 +4,20 @@ Provides a simple web view into the current state of AMD processing
 Consists of three parts
 - bash script `rpt_app.sh`
   - runs queries against the `rcmd` command, and processes the returned data into a XML file.
-- web code `xslt.xsl`, `style.css` and `table.js`
-  - XML Stylesheet, allows the users browser to convert the XML produced by the script to something user friendly.
-	- CSS stylesheet, provides style formatting to converted XML.
-	- Javascript code to add client side interactivity to the data tables.
+- vash script `rtmstatus.sh`
+  - runs `rpt_app.sh` and processes the resulting XML with the XSLT templates to produce a HTML file.
+- web code `xslt.xsl`, `charts.xsl`, `piechart.xsl`, `barchart.xsl`, `linechart.xsl`, `common.xsl`, `colours.xml` , `style.css` and `table.js`
+  - XML Stylesheets, allows `xslrproc` to convert the XML produced by the script to user friendly HTML.
+  - XML, provides a list of contrasting colours to build the charts.
+  - CSS stylesheet, provides style formatting to converted XML.
+  - Javascript code to add client side interactivity to the data tables.
 - AMD web service `rtmgate`
   - Uses existing web server on each AMD to server the content to users.
 
 
 ## Installation
-Copy `xslt.xsl`, `style.css`, and `table.js` to /usr/adlex/webapps/ROOT/
-Copy `rpt_app.sh` to /usr/adlex/bin/
+Copy `*.xsl`, `colours.xml`, `style.css`, and `table.js` to /usr/adlex/webapps/ROOT/
+Copy `rpt_app.sh` and `rtmstatus.sh` to /usr/adlex/bin/
 
 Schedule the script to run regularly with cron for the `compuware` user . e.g.
 `* * * * * /usr/adlex/bin/rpt_app.sh > /usr/adlex/webapps/ROOT/amdlive.xml`
@@ -23,9 +26,9 @@ Schedule the script to run regularly with cron for the `compuware` user . e.g.
 ## Usage
 Users access the live data via any XML capable browser.
 
-http://amdaddress:9091/amdlive.xml
+http://amdaddress:9091/amdlive.htm
 or
-https://amdaddress/amdlive.xml
+https://amdaddress/amdlive.htm
 
 
 ## Compatablity
@@ -48,3 +51,5 @@ Browsers
 ## Includes
 - Utilising Mark Kruse's javascript toolkit (MIT and GPL license) for table pagination, sorting, filtering.
 http://www.javascripttoolbox.com/lib/table/index.php
+- Utilsing Frankline Francis's XSLT charting toolkit.
+http://franklinefrancis.github.com/SvgCharts4Xsl
