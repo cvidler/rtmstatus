@@ -55,7 +55,7 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 	  <table><tr><td>
 		<xsl:variable name="sortcol"><xsl:choose><xsl:when test="$id='sess'">6</xsl:when>
 					<xsl:otherwise>4</xsl:otherwise></xsl:choose></xsl:variable>
-	  <table id="{$id}" class="table-autosort:{$sortcol} table-autopage:{$pagelen} table-page-number:{$id}page table-page-count:{$id}pages">
+	  <table id="{$id}" class="table-autosort:{$sortcol} table-autopage:{$pagelen} table-page-number:{$id}page table-page-count:{$id}pages table-autofilter table-rowcount:{$id}rowscount table-filtered-rowcount:{$id}filteredrows">
 		<thead>
 			<tr>
 				<th class="left big table-sortable:ignorecase table-sortable filterable"><xsl:value-of select="$name" /></th>
@@ -95,7 +95,7 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 			<tr>
 				<xsl:variable name="numcolspan"><xsl:choose><xsl:when test="$id='sess'">5</xsl:when>
 					<xsl:otherwise>3</xsl:otherwise></xsl:choose></xsl:variable>
-				<td class="left table-page:previous" style="cursor:pointer;">◄ Previous</td><td colspan="{$numcolspan}" style="text-align:center;">Page <span id="{$id}page">1</span> of <span id="{$id}pages">1</span></td><td class="table-page:next" style="cursor:pointer;">Next ►</td>
+				<td class="left table-page:previous" style="cursor:pointer;">◄ Previous</td><td colspan="{$numcolspan}" style="text-align:center;">Page <span id="{$id}page"></span> of <span id="{$id}pages"></span> - Rows <span id="{$id}filteredrows"></span> of <span id="{$id}rowscount"></span></td><td class="table-page:next" style="cursor:pointer;">Next ►</td>
 			</tr>
 		</tfoot>
 	  </table>
