@@ -1,10 +1,13 @@
 
-th { width: 150px; }
+body { font-family: serif; }
+h1,h2,thead,tfoot { font-family: sans-serif; }
+th { width: 150px; padding-right: 10px; white-space: nowrap;}
 th.big { width: 250px; }
 th.table-sortable { cursor: pointer; }
-th.table-sorted-asc:after { content: " ˅"; }
-th.table-sorted-desc:after { content: " ˄"; }
-td { text-align: right; }
+th.table-sorted-asc:after { content: " ▼"; }
+th.table-sorted-desc:after { content: " ▲"; }
+th.left { text-align: left; }
+td { text-align: right; vertical-align: top; padding-right: 10px; }
 td.left { text-align: left; }
 tfoot { background-color: lightgray; }
 thead { background-color: lightgray; }
