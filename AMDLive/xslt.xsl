@@ -16,10 +16,11 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 	<link rel="stylesheet" type="text/css" href="style.css"/>
   </head>
   <body>
-
 	<div id="heading">
 		<h1>AMD Live Data Statistics</h1>
 	</div>
+
+	<div class="tabs">
   
 	<!-- loop through each data set in the source XML -->
 	<xsl:for-each select="amdlive/dataset">
@@ -48,7 +49,8 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 	</xsl:variable>
 
 	<!-- create table of data set -->
-	<div id="{$id}div">
+	<div id="{$id}tab"><a href="#{$id}tab"><xsl:value-of select="$name" /></a>
+	  <div>
 	  <h2><xsl:value-of select="$name" /></h2>
 	  <table><tr><td>
 		<xsl:variable name="sortcol"><xsl:choose><xsl:when test="$id='sess'">6</xsl:when>
@@ -118,8 +120,10 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 		</xsl:call-template>
 	  </td></tr></table>
 	  </div>
+	  </div>
 	</xsl:for-each>
 
+	</div>
 
 
 	<!-- create script to sort each table -->
@@ -132,6 +136,7 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
  		<p><xsl:value-of select="amdlive/info/timestamp"/></p>
 	</div>
 
+	<script>window.location.hash = "sstab";</script>
 	</body>
   </html>
 

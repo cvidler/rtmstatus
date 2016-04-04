@@ -14,3 +14,12 @@ thead { background-color: lightgray; }
 table { border-collapse: collapse; }
 tr.total { font-weight: bold; }
 
+div.tabs { min-height: 600px; position: relative; line-height: 1; z-index: 0; }
+div.tabs > div { display: inline; }
+div.tabs > div > a { font-family: sans-serif; color: black; background: #CCC; padding: 0.2em; border: 0.1em outset #BBB;	border-bottom: 0.1em solid #CCC }
+div.tabs > div:not(:target) > a { border-bottom: none; background: #999 }
+div.tabs > div:target > a, :target #sstab > a { border-bottom: 0.1em solid #CCC; background: #CCC }
+div.tabs > div > div { background: #FFFFFF; z-index: -2; left: 0; top: 1.3em; bottom: 0; right: 0; overflow: auto; padding: 0.3em; border: 0.1em outset #BBB }
+div.tabs > div:not(:target) > div { position: absolute }
+div.tabs > div:target > div, :target #sstab > div { position: absolute; z-index: -1 }
+div.tabs :target { outline: none }
