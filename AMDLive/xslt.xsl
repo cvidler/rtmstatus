@@ -7,6 +7,8 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 <xsl:template match="/">
 <xsl:text disable-output-escaping="yes">&lt;!DOCTYPE html&gt;</xsl:text>
 
+<xsl:variable name="pagelen" select="'20'" />
+
   <html>
   <head>
 	<title>AMD Live Data Statistics</title>
@@ -51,7 +53,7 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 	  <table><tr><td>
 		<xsl:variable name="sortcol"><xsl:choose><xsl:when test="$id='sess'">6</xsl:when>
 					<xsl:otherwise>4</xsl:otherwise></xsl:choose></xsl:variable>
-	  <table id="{$id}" class="table-autosort:{$sortcol} table-autopage:10 table-page-number:{$id}page table-page-count:{$id}pages">
+	  <table id="{$id}" class="table-autosort:{$sortcol} table-autopage:{$pagelen} table-page-number:{$id}page table-page-count:{$id}pages">
 		<thead>
 			<tr>
 				<th class="left big table-sortable:ignorecase table-sortable filterable"><xsl:value-of select="$name" /></th>
@@ -95,25 +97,7 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 			</tr>
 		</tfoot>
 	  </table>
-	  <script type="text/javascript">
-		function <xsl:value-of select="$id" />pager(page) {
-			var t = document.getElementById('<xsl:value-of select="$id" />');
-			var res;
-			if (page=="previous") {
-				res=Table.pagePrevious(t);
-			}
-			else if (page=="next") {
-				res=Table.pageNext(t);
-			}
-			else {
-				res=Table.page(t,page);
-			}
-			var currentPage = res.page+1;
-			$('.pagelink').removeClass('currentpage');
-			$('#page'+currentPage).addClass('currentpage');
-		}
-	  </script>	
-	  </td><td>
+	  </td><td class="left">
 		<!-- create a pie chart of total bytes -->
 		<xsl:variable name="chart">
 		<p>
@@ -126,6 +110,8 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 				<xsl:with-param name="viewBoxHeight" select="125" />
 			</xsl:call-template>
 		</p>
+		<p><xsl:value-of select="@name" /> Total Bytes</p>
+
 		</xsl:variable>
 		<xsl:call-template name="removePrefix">
 			<xsl:with-param name="data" select="exsl:node-set($chart)/*" />
@@ -134,9 +120,12 @@ xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl">
 	  </div>
 	</xsl:for-each>
 
+
+
 	<!-- create script to sort each table -->
 	<script>
-	<xsl:for-each select="amdlive/dataset">Table.sort(<xsl:value-of select="@id" />tb);</xsl:for-each>
+	<xsl:for-each select="amdlive/dataset">Table.sort(<xsl:value-of select="@id" />tb);
+	</xsl:for-each>
 	</script>
 	
 	<div id="footer">
