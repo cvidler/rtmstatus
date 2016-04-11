@@ -110,7 +110,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 				<xsl:attribute name="name">
                     <xsl:value-of select="$othersLabel" />
                 </xsl:attribute>
-				<xsl:value-of select="$sumOfOthers" />
+				<xsl:value-of select="format-number($sumOfOthers,'#,##0.00')" />
 			</xsl:element>
 		</xsl:if>
 	</xsl:template>
