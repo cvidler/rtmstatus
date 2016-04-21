@@ -19,9 +19,18 @@ Consists of three parts
 Copy `*.xsl`, `colours.xml`, `style.css`, and `table.js` to /usr/adlex/webapps/ROOT/
 Copy `rpt_app.sh` and `rtmstatus.sh` to /usr/adlex/bin/
 
+Create a home directory for the compuware user
+mkdir -p /home/compuware
+chown compuware:compuware /home/compuware
+
 Schedule the script to run regularly with cron for the `compuware` user . e.g.
-`* * * * * /usr/adlex/bin/rpt_app.sh > /usr/adlex/webapps/ROOT/amdlive.xml`
-	
+`* * * * * /bin/bash /usr/adlex/bin/rpt_app.sh > /usr/adlex/webapps/ROOT/amdlive.xml`
+
+Check `rcon` produces output for the following commands.
+`lapp`
+`lsrv`
+`lcli`
+`lsess`	
 	
 ## Usage
 Users access the live data via any XML capable browser.
@@ -34,13 +43,13 @@ https://amdaddress/amdlive.htm
 ## Compatablity
 
 DC RUM
-- AMD 12.4.1
+- AMD 12.4.1, 12.4.2
 
 Browsers
 - IE 9/10/11/Edge
 - Firefox 38+
 
-**Note:** Currently not working with AMD NG.
+**Note:** Currently not working with AMD NG. As it does not provide the utilised rcon commands.
 
 
 ## Requirements
