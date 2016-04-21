@@ -19,9 +19,11 @@ Consists of three parts
 Copy `*.xsl`, `colours.xml`, `style.css`, and `table.js` to /usr/adlex/webapps/ROOT/
 Copy `rpt_app.sh` and `rtmstatus.sh` to /usr/adlex/bin/
 
-Create a home directory for the compuware user
-mkdir -p /home/compuware
-chown compuware:compuware /home/compuware
+Create a home directory for the compuware user.
+
+`mkdir -p /home/compuware`
+
+`chown compuware:compuware /home/compuware`
 
 Schedule the script to run regularly with cron for the `compuware` user . e.g.
 `* * * * * /bin/bash /usr/adlex/bin/rpt_app.sh > /usr/adlex/webapps/ROOT/amdlive.xml`
